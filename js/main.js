@@ -10,6 +10,8 @@ const getRandomNumb = function (min, max) {
 };
 
 const getRandomFraction = function (min, max, period = 0) {
-  let expon = 10**period;
+  const expon = 10**period;
   return (getRandomNumb(min*expon, max*expon))/expon;
 };
+
+getRandomFraction(-1, 8.2, 3);
