@@ -14,4 +14,75 @@ const getRandomFraction = function (min, max, period = 0) {
   return (getRandomNumb(min*expon, max*expon))/expon;
 };
 
-getRandomFraction(-1, 8.2, 3);
+const getRandomIndex = function (array) {
+  return array[getRandomNumb(0, array.length - 1)];
+};
+
+// Эта функция создает массив из случайного количества элементов другого массива
+const getRandomFoundedArray = function (array) {
+  const newArray = new Array(1).fill(getRandomIndex(array));
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] !== newArray[0]) {
+      if (getRandomNumb(0, 1) === 1) {
+        newArray.push(array[i])
+      }
+    }
+  }
+  return newArray;
+};
+
+// Создаю массивы с вариантами параметров
+const TYPE_OPTIONS = ['palace', 'flat', 'house', 'bungalow'];
+const CHECK_OPTIONS = ['12:00', '13:00', '14:00'];
+const FEATURE_OPTIONS = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner']
+const PHOTO_OPTIONS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
+];
+
+// Функции генерирующие обьекты для обьяления
+const createAuthor = function () {
+  return {
+    avatar: 'img/avatars/user0' + getRandomNumb(1, 8) + '.png',
+  };
+};
+
+const createLocation = function () {
+  return {
+    x: getRandomFraction(35.65, 35.7, 5),
+    y: getRandomFraction(139.7, 139.8, 5),
+  };
+};
+
+const createOffer = function () {
+  return {
+    title: 'Сдается чистая, просторная жил-площадь в центре Токио!',
+    address: Object.values(createLocation()).join(', '),
+    price: getRandomNumb(1, 997),
+    type: getRandomIndex(TYPE_OPTIONS),
+    rooms: getRandomNumb(1, 17),
+    guests: getRandomNumb(1, 13),
+    checkin: getRandomIndex(CHECK_OPTIONS),
+    checkout: getRandomIndex(CHECK_OPTIONS),
+    features: getRandomFoundedArray(FEATURE_OPTIONS),
+    description: 'Курить на кухне. Можно с котиками. Только для японцев.',
+    photos: getRandomFoundedArray(PHOTO_OPTIONS),
+  };
+};
+
+// Собираем обьявление из обьектов
+const createNewAd = function () {
+  const newAd = {
+    Author: createAuthor(),
+    Offer: createOffer(),
+    Location: createLocation(),
+  }
+  return newAd
+};
+
+// Создаем массив из обьявлений
+const someAds = new Array(10).fill(null).map(() => createNewAd());
+
+// Это тут, чтобы линтер не жаловался
+someAds.join();
