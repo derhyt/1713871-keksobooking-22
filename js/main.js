@@ -15,7 +15,9 @@ const getRandomFraction = function (min, max, period = 0) {
 };
 
 const getRandomIndex = function (array) {
-  return array[getRandomNumb(0, array.length - 1)];
+  const lengthArray = array.length - 1;
+  const randomIndex = getRandomNumb(0, lengthArray);
+  return array[randomIndex];
 };
 
 // Эта функция создает массив из случайного количества элементов другого массива
@@ -40,11 +42,25 @@ const PHOTO_OPTIONS = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
+const TITLE_OPTIONS = [
+  'Предлагаем дом в историческом районе города.',
+  'Сдается квартира в баре. Вы не захотите смотреть другие варианты!',
+  'Сдается чистая, просторная жил-площадь в центре Токио!',
+  'Просмотрите это обьявление с квартирой.',
+];
+const DESCRIPTION_OPTIONS = [
+  'Это обьявление оказалось здесь случайно, не верьте ему.',
+  'Отзывы говорят, что эта квартира должна вам понравиться.',
+  'Просто выберите нас и нажмите нужные кнопки.',
+  'Предложение нереально - мы просто хотим похвастаться видом из окна.',
+  'Курить на кухне. Можно с котиками. Только для японцев.',
+  'Хотели бы пожить в лофте? Мы тоже...',
+];
 
 // Функции генерирующие обьекты для обьяления
 const createAuthor = function () {
   return {
-    avatar: 'img/avatars/user0' + getRandomNumb(1, 8) + '.png',
+    avatar: `img/avatars/user0${getRandomNumb(1, 8)}.png`,
   };
 };
 
@@ -57,7 +73,7 @@ const createLocation = function () {
 
 const createOffer = function () {
   return {
-    title: 'Сдается чистая, просторная жил-площадь в центре Токио!',
+    title: getRandomIndex(TITLE_OPTIONS),
     address: Object.values(createLocation()).join(', '),
     price: getRandomNumb(1, 997),
     type: getRandomIndex(TYPE_OPTIONS),
@@ -66,7 +82,7 @@ const createOffer = function () {
     checkin: getRandomIndex(CHECK_OPTIONS),
     checkout: getRandomIndex(CHECK_OPTIONS),
     features: getRandomFoundedArray(FEATURE_OPTIONS),
-    description: 'Курить на кухне. Можно с котиками. Только для японцев.',
+    description: getRandomIndex(DESCRIPTION_OPTIONS),
     photos: getRandomFoundedArray(PHOTO_OPTIONS),
   };
 };
