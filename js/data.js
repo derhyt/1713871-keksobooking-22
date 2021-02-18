@@ -57,9 +57,9 @@ const createOffer = function () {
 // Собираем обьявление из обьектов
 const createNewAd = function () {
   const newAd = {
-    Author: createAuthor(),
-    Offer: createOffer(),
-    Location: createLocation(),
+    author: createAuthor(),
+    offer: createOffer(),
+    location: createLocation(),
   }
   return newAd
 };
