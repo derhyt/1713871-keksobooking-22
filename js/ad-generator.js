@@ -1,5 +1,3 @@
-import { createSomeAds } from './data.js';
-
 // Создаю шаблон обьявления
 const adTemplate = document.querySelector('#card').content;
 const newAdTemplate = adTemplate.querySelector('.popup');
@@ -18,23 +16,22 @@ const getType = function (type) {
   }
 };
 
-// Тут происходит заполнение шаблон информацией
-const getFoundedAd = function(adExample) {
-  const ad = newAdTemplate.cloneNode(true);
-  const offer = adExample.offer
+// Тут происходит заполнение шаблона информацией
+const createTemplateAd = function(inputedFromDataAd) {
+  const adTemplateClone = newAdTemplate.cloneNode(true);
+  const offer = inputedFromDataAd.offer
   const adList = document.querySelector('#map-canvas');
 
-  const title = ad.querySelector('.popup__title');
-  const address = ad.querySelector('.popup__text--address');
-  const price = ad.querySelector('.popup__text--price');
-  const type = ad.querySelector('.popup__type');
-  const capacity = ad.querySelector('.popup__text--capacity');
-  const time = ad.querySelector('.popup__text--time');
-  const feature = ad.querySelector('.popup__features');
-  const description = ad.querySelector('.popup__description');
-  const div = ad.querySelector('div');
-  const photo = ad.querySelector('.popup__photo');
-  const avatar = ad.querySelector('img');
+  const title = adTemplateClone.querySelector('.popup__title');
+  const address = adTemplateClone.querySelector('.popup__text--address');
+  const price = adTemplateClone.querySelector('.popup__text--price');
+  const type = adTemplateClone.querySelector('.popup__type');
+  const capacity = adTemplateClone.querySelector('.popup__text--capacity');
+  const time = adTemplateClone.querySelector('.popup__text--time');
+  const feature = adTemplateClone.querySelector('.popup__features');
+  const description = adTemplateClone.querySelector('.popup__description');
+  const photo = adTemplateClone.querySelector('.popup__photos');
+  const avatar = adTemplateClone.querySelector('img');
 
   title.textContent = offer.title;
   address.textContent = offer.address;
@@ -44,24 +41,17 @@ const getFoundedAd = function(adExample) {
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   feature.textContent = offer.features.join(', ');
   description.textContent = offer.description;
-  avatar.src = adExample.author.avatar;
+  avatar.src = inputedFromDataAd.author.avatar;
 
-  // Если фотографий в массиве много - создаем копию тэга, задаем им значения и удаляем изначальный тэг
-  if (offer.photos.length > 1) {
-    for (let i = 0; i < offer.photos.length; i++) {
-      const newPhotoTemplate = div.cloneNode(true);
-      const newPhotoTab = newPhotoTemplate.querySelector('img');
-      newPhotoTab.src = offer.photos[i];
-      ad.appendChild(newPhotoTemplate);
-      div.remove();
-    }
-  } else {photo.src =  offer.photos}
+  for (let i = 0; i < offer.photos.length; i++) {
+    const newPhotoTemplate = photo.cloneNode(true);
+    const newPhotoTab = newPhotoTemplate.querySelector('img');
+    newPhotoTab.src = offer.photos[i];
+    adTemplateClone.appendChild(newPhotoTemplate);
+    photo.remove();
+  }
 
-  return adList.appendChild(ad);
+  return adList.appendChild(adTemplateClone);
 };
 
-// Вставляем первое обьявление из массива на карту
-const adData = createSomeAds[1];
-getFoundedAd(adData);
-
-export { newAdTemplate };
+export { createTemplateAd };
