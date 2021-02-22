@@ -43,12 +43,12 @@ const createTemplateAd = function(inputedFromData) {
   description.textContent = offer.description;
   avatar.src = inputedFromData.author.avatar;
 
+  const imageNode = photo.querySelector('img');
   for (let i = 0; i < offer.photos.length; i++) {
-    const newPhotoTemplate = photo.cloneNode(true);
-    const newPhotoTab = newPhotoTemplate.querySelector('img');
-    newPhotoTab.src = offer.photos[i];
-    templateClone.appendChild(newPhotoTemplate);
-    photo.remove();
+    const imageNodeClone = imageNode.cloneNode(true);
+    imageNodeClone.src = offer.photos[i];
+    photo.appendChild(imageNodeClone);
+    imageNode.remove();
   }
 
   return adList.appendChild(templateClone);
