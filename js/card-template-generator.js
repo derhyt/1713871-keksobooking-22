@@ -1,4 +1,4 @@
-// Создаю шаблон обьявления
+// Нахожу шаблон обьявления
 const adTemplate = document.querySelector('#card').content;
 const newAdTemplate = adTemplate.querySelector('.popup');
 
@@ -48,8 +48,8 @@ const createTemplateAd = function(inputedFromData) {
     const imageNodeClone = imageNode.cloneNode(true);
     imageNodeClone.src = offer.photos[i];
     photo.appendChild(imageNodeClone);
-    imageNode.remove();
   }
+  imageNode.remove();
 
   return adList.appendChild(templateClone);
 };
