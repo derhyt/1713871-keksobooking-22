@@ -1,5 +1,5 @@
 import { disableAdForm, enableAdForm } from './form.js';
-import { createSomeAds } from './data.js';
+import { getAds } from './data.js';
 import { createTemplateAd } from './card-template-generator.js';
 
 /* global L:readonly */
@@ -53,29 +53,20 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = fixedAddressLatIng.join(', ');
 });
 
-// Мелкие маркеры
-// На основе сгенерированных обьявлений создаем обьекты с координатами и карточками
-const points = new Array(createSomeAds.length).fill(null).map(() => new Object());
-for (let i = 0; i < createSomeAds.length; i++) {
-  points[i].title = createSomeAds[i].offer.title;
-  points[i].lat = createSomeAds[i].location.x;
-  points[i].lng = createSomeAds[i].location.y;
-  points[i].popup = createTemplateAd(createSomeAds[i]);
-}
+// На основе сгенерированных обьявлений создаем маркеры с карточками
+const ads = getAds;
+const icon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
-points.forEach((point) => {
-  const {lat, lng} = point;
-
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
+ads.forEach(ad => {
+  const popup = createTemplateAd(ad);
   const marker = L.marker(
     {
-      lat,
-      lng,
+      lat: ad.location.x,
+      lng: ad.location.y,
     },
     {
       icon,
@@ -85,9 +76,9 @@ points.forEach((point) => {
   marker
     .addTo(map)
     .bindPopup(
-      point.popup,
+      popup,
       {
         keepInView: true,
       },
     );
-});
+})
