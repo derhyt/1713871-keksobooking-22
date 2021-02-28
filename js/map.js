@@ -54,7 +54,7 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 // На основе сгенерированных обьявлений создаем маркеры с карточками
-const ads = getAds;
+const ads = getAds();
 const icon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
