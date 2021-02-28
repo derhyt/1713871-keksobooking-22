@@ -64,7 +64,7 @@ const createNewAd = function () {
   return newAd
 };
 
-// Создаем массив из обьявлений
-const createSomeAds = new Array(10).fill(null).map(() => createNewAd());
+// Получаем массив из обьявлений
+const getAds = () => new Array(10).fill(null).map(() => createNewAd());
 
-export { createSomeAds };
+export { getAds };
