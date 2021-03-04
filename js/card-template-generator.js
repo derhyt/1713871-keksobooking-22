@@ -32,24 +32,54 @@ const createTemplateAd = function(inputedFromData) {
   const description = templateClone.querySelector('.popup__description');
   const photo = templateClone.querySelector('.popup__photos');
   const avatar = templateClone.querySelector('img');
-
-  title.textContent = offer.title;
-  address.textContent = offer.address;
-  price.textContent = `${offer.price} ₽/ночь`;
-  type.textContent = mapType(offer.type);
-  capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`
-  time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  feature.textContent = offer.features.join(', ');
-  description.textContent = offer.description;
-  avatar.src = inputedFromData.author.avatar;
-
   const imageNode = photo.querySelector('img');
-  for (let i = 0; i < offer.photos.length; i++) {
-    const imageNodeClone = imageNode.cloneNode(true);
-    imageNodeClone.src = offer.photos[i];
-    photo.appendChild(imageNodeClone);
+
+  if (offer.title) {
+    title.textContent = offer.title} else {
+    title.remove()
   }
-  imageNode.remove();
+  if (offer.address) {
+    address.textContent = offer.address} else {
+    address.remove()
+  }
+  if (offer.price) {
+    price.textContent = `${offer.price} ₽/ночь`} else {
+    price.remove()
+  }
+  if (offer.type) {
+    type.textContent = mapType(offer.type)} else {
+    type.remove()
+  }
+  if (offer.rooms || offer.guests) {
+    capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`} else {
+    capacity.remove()
+  }
+  if (offer.checkin || offer.checkout) {
+    time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`} else {
+    time.remove()
+  }
+  if (offer.features) {
+    feature.textContent = offer.features.join(', ')} else {
+    feature.remove()
+  }
+  if (offer.description) {
+    description.textContent = offer.description} else {
+    description.remove()
+  }
+  if (inputedFromData.author.avatar) {
+    avatar.src = inputedFromData.author.avatar} else {
+    avatar.remove()
+  }
+  if (offer.photos) {
+    for (let i = 0; i < offer.photos.length; i++) {
+      const imageNodeClone = imageNode.cloneNode(true);
+      imageNodeClone.src = offer.photos[i];
+      photo.appendChild(imageNodeClone);
+    }
+    imageNode.remove();
+  } else {
+    imageNode.remove()
+  }
 
   return adList.appendChild(templateClone);
 };

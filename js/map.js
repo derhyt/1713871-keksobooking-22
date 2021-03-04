@@ -1,6 +1,6 @@
 import { disableAdForm, enableAdForm } from './form.js';
-import { getAds } from './data.js';
 import { createTemplateAd } from './card-template-generator.js';
+import { getData } from './data.js';
 
 /* global L:readonly */
 
@@ -13,7 +13,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: 35.68128,
     lng: 139.75296,
-  }, 12);
+  }, 10);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -54,31 +54,35 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 // На основе сгенерированных обьявлений создаем маркеры с карточками
-const ads = getAds();
 const icon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
-ads.forEach(ad => {
-  const popup = createTemplateAd(ad);
-  const marker = L.marker(
-    {
-      lat: ad.location.x,
-      lng: ad.location.y,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      popup,
+getData.then((ads) => {
+  ads.forEach(ad => {
+    const popup = createTemplateAd(ad);
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat: ad.location.lat,
+        lng: ad.location.lng,
+      },
+      {
+        icon,
       },
     );
+
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        popup,
+        {
+          keepInView: true,
+        },
+      );
+  })
 })
+
+export { mainPinMarker }
