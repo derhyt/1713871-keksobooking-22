@@ -1,22 +1,13 @@
 import './validation.js'
-
-import './util.js'
-
 import { initializeMap, renderMarkers } from './map.js';
-
 import { enableMapFilters, enableAdForm, disablePage } from './form.js';
-
 import { getData } from './api.js';
-
-// disablePage()
+import { replyOnDataError } from './util.js';
 
 disablePage()
 
 initializeMap(() => {
   enableAdForm();
-  getData
-    .then(data => {
-      renderMarkers(data);
-      enableMapFilters();
-    })
+  getData(renderMarkers, replyOnDataError);
+  enableMapFilters();
 })

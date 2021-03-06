@@ -1,5 +1,4 @@
-import { mainPinMarker } from './map.js'
-import { disableMapFilters, mapFilters, addressLabel } from './form.js'
+import { disableMapFilters } from './form.js'
 
 // Плашка с сообщением на красном фоне
 const showAlert = (message, time) => {
@@ -29,21 +28,10 @@ const replyOnDataError = function () {
   showAlert('На этой странице обьявлений не будет!', 4000)
 }
 
-// Обработчик кнопки ресет
-const resetButton = document.querySelector('.ad-form__reset')
-
-const setAddressToDefault = function () {
-  addressLabel.value = '35.68128, 139.75296'
-}
-resetButton.addEventListener('click', () => {
-  mainPinMarker.setLatLng([35.68128, 139.75296]);
-  mapFilters.reset();
-  setTimeout(() => {setAddressToDefault()}, 0)
-})
-
-// Реализуем показ сообщения ошибки отправки формы
+// Работаем с отправкой формы
 const main = document.querySelector('main')
 
+// Неуспешная
 const errorTemplate = document.querySelector('#error').content
 const errorMessage = errorTemplate.querySelector('.error')
 const newErrorMessage = errorMessage.cloneNode(true)
@@ -62,7 +50,7 @@ const showErrorMessage = function () {
   })
 }
 
-// Сообщение об удачной отправке формы
+// Успешная
 const successTemplate = document.querySelector('#success').content
 const successMessage = successTemplate.querySelector('.success')
 const newSuccessMessage = successMessage.cloneNode(true)

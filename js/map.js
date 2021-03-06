@@ -2,7 +2,7 @@ import { createTemplateAd } from './card-template-generator.js';
 
 /* global L:readonly */
 
-const map = L.map('map-canvas');
+const MAP = L.map('map-canvas');
 
 // Функция отрисовки маркеров
 const renderMarkers = function (ads) {
@@ -26,7 +26,7 @@ const renderMarkers = function (ads) {
 
 
     marker
-      .addTo(map)
+      .addTo(MAP)
       .bindPopup(
         popup,
         {
@@ -54,7 +54,7 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+mainPinMarker.addTo(MAP);
 
 // Реализуем принципы работы главного маркера
 const address = document.querySelector('#address');
@@ -70,7 +70,7 @@ mainPinMarker.on('moveend', (evt) => {
 
 // Функция инициализации карты
 const initializeMap = function (afterInit) {
-  map.on('load', () => {
+  MAP.on('load', () => {
     afterInit()
   })
     .setView({
@@ -83,7 +83,7 @@ const initializeMap = function (afterInit) {
     {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
-  ).addTo(map);
+  ).addTo(MAP);
 }
 
 export { mainPinMarker, initializeMap, renderMarkers }

@@ -1,4 +1,6 @@
 import { sendData } from './api.js'
+import { mainPinMarker } from './map.js'
+import { showSuccessMessage, showErrorMessage } from './util.js'
 
 const adForm = document.querySelector('.ad-form')
 const mapFilters = document.querySelector('.map__filters');
@@ -33,8 +35,6 @@ const enableAdForm = function () {
   for (let i = 0; i < adForm.children.length; i++) {
     adForm.children[i].removeAttribute('disabled')
   }
-
-  addressLabel.setAttribute('disabled', 'disabled')
 }
 
 const enableMapFilters = function () {
@@ -45,16 +45,41 @@ const enableMapFilters = function () {
   }
 }
 
+// Возвращение фильтров и страницы в изначальное состояние
+const setAddressToDefault = function () {
+  addressLabel.value = '35.68128, 139.75296'
+}
+
+const resetPage = function () {
+  mainPinMarker.setLatLng([35.68128, 139.75296]);
+  mapFilters.reset();
+  adForm.reset();
+  setTimeout(() => {setAddressToDefault()}, 0)
+}
+
+// В случае отправки данных будет это:
+const sendDataSuccess = function () {
+  showSuccessMessage();
+  resetPage();
+}
+
+// Обработчик кнопки ресет
+const resetButton = document.querySelector('.ad-form__reset')
+
+resetButton.addEventListener('click', () => {
+  resetPage();
+})
+
+
 // Обработка нажатия кнопки Отправить
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const formData = new FormData(evt.target);
 
-  sendData(formData)
+  sendData(formData, sendDataSuccess, showErrorMessage);
 });
 
-export { mapFilters,
-  addressLabel,
+export {
   disableMapFilters,
   disablePage,
   enableAdForm,
