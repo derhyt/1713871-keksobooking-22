@@ -1,34 +1,76 @@
-// Доработал функцию отсюда: https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-const getRandomNumb = function (min, max) {
-  if (min > max || max < 0) {return}
-  if (min < 0) {min = 0}
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+import { disableMapFilters } from './form.js'
 
-const getRandomFraction = function (min, max, period = 0) {
-  const expon = 10**period;
-  return (getRandomNumb(min*expon, max*expon))/expon;
-};
+// Плашка с сообщением на красном фоне
+const showAlert = (message, time) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
 
-const getRandomIndex = function (array) {
-  const lengthArray = array.length - 1;
-  const randomIndex = getRandomNumb(0, lengthArray);
-  return array[randomIndex];
-};
+  alertContainer.textContent = message;
 
-// Эта функция создает массив из случайного количества элементов другого массива
-const getRandomFoundedArray = function (array) {
-  const newArray = new Array(1).fill(getRandomIndex(array));
-  for (let i = 0; i < array.length; i++) {
-    if (array[i] !== newArray[0]) {
-      if (getRandomNumb(0, 1) === 1) {
-        newArray.push(array[i])
-      }
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, time);
+}
+
+// Действия в случае незагрузки обьявлений
+const replyOnDataError = function () {
+  disableMapFilters(),
+  showAlert('На этой странице обьявлений не будет!', 4000)
+}
+
+// Работаем с отправкой формы
+const main = document.querySelector('main')
+
+// Неуспешная
+const errorTemplate = document.querySelector('#error').content
+const errorMessage = errorTemplate.querySelector('.error')
+const newErrorMessage = errorMessage.cloneNode(true)
+
+const showErrorMessage = function () {
+  newErrorMessage.style.zIndex ='1000'
+  main.appendChild(newErrorMessage)
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === ('Escape' || 'Esc')) {
+      newErrorMessage.remove()
     }
-  }
-  return newArray;
-};
+  })
+  document.addEventListener('click', () => {
+    newErrorMessage.remove()
+  })
+}
 
-export { getRandomNumb, getRandomFraction, getRandomIndex, getRandomFoundedArray };
+// Успешная
+const successTemplate = document.querySelector('#success').content
+const successMessage = successTemplate.querySelector('.success')
+const newSuccessMessage = successMessage.cloneNode(true)
+
+const showSuccessMessage = function () {
+  newSuccessMessage.style.zIndex ='1000'
+  main.appendChild(newSuccessMessage);
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === ('Escape' || 'Esc')) {
+      newSuccessMessage.remove()
+    }
+  })
+  document.addEventListener('click', () => {
+    newSuccessMessage.remove()
+  })
+}
+
+export {
+  replyOnDataError,
+  showErrorMessage,
+  showSuccessMessage
+};

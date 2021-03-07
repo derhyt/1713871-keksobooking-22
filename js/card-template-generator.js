@@ -32,24 +32,32 @@ const createTemplateAd = function(inputedFromData) {
   const description = templateClone.querySelector('.popup__description');
   const photo = templateClone.querySelector('.popup__photos');
   const avatar = templateClone.querySelector('img');
-
-  title.textContent = offer.title;
-  address.textContent = offer.address;
-  price.textContent = `${offer.price} ₽/ночь`;
-  type.textContent = mapType(offer.type);
-  capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`
-  time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  feature.textContent = offer.features.join(', ');
-  description.textContent = offer.description;
-  avatar.src = inputedFromData.author.avatar;
-
   const imageNode = photo.querySelector('img');
+
+
+  title.textContent = offer.title
+  address.textContent = offer.address
+  price.textContent = `${offer.price} ₽/ночь`
+  type.textContent = mapType(offer.type)
+  capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`
+  time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`
+  description.textContent = offer.description
+  avatar.src = inputedFromData.author.avatar
+
+  feature.textContent = '';
+  for (let i = 0; i < offer.features.length; i++) {
+    const newFeature = document.createElement('li');
+    newFeature.classList.add('popup__feature', `popup__feature--${offer.features[i]}`);
+    feature.appendChild(newFeature)
+  }
+
   for (let i = 0; i < offer.photos.length; i++) {
     const imageNodeClone = imageNode.cloneNode(true);
     imageNodeClone.src = offer.photos[i];
     photo.appendChild(imageNodeClone);
   }
   imageNode.remove();
+
 
   return adList.appendChild(templateClone);
 };

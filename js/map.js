@@ -1,26 +1,40 @@
-import { disableAdForm, enableAdForm } from './form.js';
-import { getAds } from './data.js';
 import { createTemplateAd } from './card-template-generator.js';
 
 /* global L:readonly */
 
-disableAdForm();
+const MAP = L.map('map-canvas');
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    enableAdForm()
+// Функция отрисовки маркеров
+const renderMarkers = function (ads) {
+  const icon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  ads.forEach(ad => {
+    const popup = createTemplateAd(ad);
+    const marker = L.marker(
+      {
+        lat: ad.location.lat,
+        lng: ad.location.lng,
+      },
+      {
+        icon,
+      },
+    );
+
+
+    marker
+      .addTo(MAP)
+      .bindPopup(
+        popup,
+        {
+          keepInView: true,
+        },
+      );
   })
-  .setView({
-    lat: 35.68128,
-    lng: 139.75296,
-  }, 12);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+}
 
 // Создаем главный маркер
 const mainPinIcon = L.icon({
@@ -39,7 +53,8 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-mainPinMarker.addTo(map);
+
+mainPinMarker.addTo(MAP);
 
 // Реализуем принципы работы главного маркера
 const address = document.querySelector('#address');
@@ -53,32 +68,22 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = fixedAddressLatIng.join(', ');
 });
 
-// На основе сгенерированных обьявлений создаем маркеры с карточками
-const ads = getAds();
-const icon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+// Функция инициализации карты
+const initializeMap = function (afterInit) {
+  MAP.on('load', () => {
+    afterInit()
+  })
+    .setView({
+      lat: 35.68128,
+      lng: 139.75296,
+    }, 10);
 
-ads.forEach(ad => {
-  const popup = createTemplateAd(ad);
-  const marker = L.marker(
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
-      lat: ad.location.x,
-      lng: ad.location.y,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
-    {
-      icon,
-    },
-  );
+  ).addTo(MAP);
+}
 
-  marker
-    .addTo(map)
-    .bindPopup(
-      popup,
-      {
-        keepInView: true,
-      },
-    );
-})
+export { mainPinMarker, initializeMap, renderMarkers }
