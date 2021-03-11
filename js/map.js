@@ -4,7 +4,9 @@ import { createTemplateAd } from './card-template-generator.js';
 
 const MAP = L.map('map-canvas');
 
-// Функция отрисовки маркеров
+// Функция отрисовки маркеров обьявлений
+let markers = L.layerGroup().addTo(MAP);
+
 const renderMarkers = function (ads) {
   const icon = L.icon({
     iconUrl: './img/pin.svg',
@@ -24,19 +26,21 @@ const renderMarkers = function (ads) {
       },
     );
 
-
     marker
-      .addTo(MAP)
-      .bindPopup(
-        popup,
-        {
-          keepInView: true,
-        },
-      );
+      .addTo(markers)
+      .bindPopup(popup);
   })
 }
 
+const removeMarkers = function () {
+  MAP.removeLayer(markers);
+  markers = L.layerGroup().addTo(MAP);
+};
+
 // Создаем главный маркер
+const LAT = 35.68128;
+const LNG = 139.75296;
+
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
@@ -45,8 +49,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.68128,
-    lng: 139.75296,
+    lat: LAT,
+    lng: LNG,
   },
   {
     draggable: true,
@@ -58,7 +62,7 @@ mainPinMarker.addTo(MAP);
 
 // Реализуем принципы работы главного маркера
 const address = document.querySelector('#address');
-address.value = '35.68128, 139.75296';
+address.value = `${LAT}, ${LNG}`;
 mainPinMarker.on('moveend', (evt) => {
   const addressLatIng = Object.values(evt.target.getLatLng());
   const fixedAddressLatIng = new Array(0);
@@ -74,8 +78,8 @@ const initializeMap = function (afterInit) {
     afterInit()
   })
     .setView({
-      lat: 35.68128,
-      lng: 139.75296,
+      lat: LAT,
+      lng: LNG,
     }, 10);
 
   L.tileLayer(
@@ -86,4 +90,4 @@ const initializeMap = function (afterInit) {
   ).addTo(MAP);
 }
 
-export { mainPinMarker, initializeMap, renderMarkers }
+export { mainPinMarker, initializeMap, renderMarkers, removeMarkers }
