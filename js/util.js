@@ -1,5 +1,9 @@
 import { disableMapFilters } from './form.js'
 
+// Координаты центра Токио
+const LAT = 35.68128;
+const LNG = 139.75296;
+
 // Плашка с сообщением на красном фоне
 const showAlert = (message, time) => {
   const alertContainer = document.createElement('div');
@@ -72,5 +76,7 @@ const showSuccessMessage = function () {
 export {
   replyOnDataError,
   showErrorMessage,
-  showSuccessMessage
+  showSuccessMessage,
+  LAT,
+  LNG
 };

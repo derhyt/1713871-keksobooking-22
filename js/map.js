@@ -1,11 +1,18 @@
 import { createTemplateAd } from './card-template-generator.js';
+import { processData } from './filter.js';
+import { LAT, LNG } from './util.js';
 
 /* global L:readonly */
 
 const MAP = L.map('map-canvas');
 
-// Функция отрисовки маркеров обьявлений
+// Функции для работы с маркерами обьявлений
 let markers = L.layerGroup().addTo(MAP);
+
+const removeMarkers = function () {
+  MAP.removeLayer(markers);
+  markers = L.layerGroup().addTo(MAP);
+};
 
 const renderMarkers = function (ads) {
   const icon = L.icon({
@@ -14,7 +21,7 @@ const renderMarkers = function (ads) {
     iconAnchor: [20, 40],
   });
 
-  ads.forEach(ad => {
+  processData(ads).forEach(ad => {
     const popup = createTemplateAd(ad);
     const marker = L.marker(
       {
@@ -32,15 +39,7 @@ const renderMarkers = function (ads) {
   })
 }
 
-const removeMarkers = function () {
-  MAP.removeLayer(markers);
-  markers = L.layerGroup().addTo(MAP);
-};
-
 // Создаем главный маркер
-const LAT = 35.68128;
-const LNG = 139.75296;
-
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
@@ -90,4 +89,4 @@ const initializeMap = function (afterInit) {
   ).addTo(MAP);
 }
 
-export { mainPinMarker, initializeMap, renderMarkers, removeMarkers }
+export { mainPinMarker, initializeMap, renderMarkers, processData }

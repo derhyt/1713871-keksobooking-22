@@ -1,6 +1,5 @@
-import { renderMarkers, removeMarkers } from './map.js';
-import { getData } from './api.js';
-import { replyOnDataError } from './util.js';
+// import { getData } from './api.js';
+// import { replyOnDataError } from './util.js';
 
 const mapFilters = document.querySelector('.map__filters');
 
@@ -76,15 +75,12 @@ const filterAds = function (ads) {
 
 // Получаем обработанную дату
 const SIMILAR_AD_COUNT = 10;
-const processedData = getData((data) => {
-  renderMarkers(data.slice(0, SIMILAR_AD_COUNT));
-  mapFilters.addEventListener('change', () => {
-    const filterData = filterAds(data);
-    removeMarkers();
-    renderMarkers(filterData.slice(0, SIMILAR_AD_COUNT));
-  });
-},
-replyOnDataError,
-);
 
-export { processedData };
+const processData = function (ads) {
+  mapFilters.addEventListener('change', () => {
+    return filterAds(ads).slice(0, SIMILAR_AD_COUNT)
+  });
+  return ads
+};
+
+export { processData };
