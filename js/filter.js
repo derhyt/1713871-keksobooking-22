@@ -73,7 +73,7 @@ const filterAds = function (ads) {
 // Получаем обработанную дату
 const SIMILAR_AD_COUNT = 10;
 
-const processData = function (ads, render) {
+const filterData = function (ads, render) {
   mapFilters.addEventListener('change', () => {
     const result =  filterAds(ads).slice(0, SIMILAR_AD_COUNT);
     render(result);
@@ -81,4 +81,4 @@ const processData = function (ads, render) {
   return render(ads)
 };
 
-export { processData };
+export { filterData };

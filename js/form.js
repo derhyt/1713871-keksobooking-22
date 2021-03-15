@@ -47,14 +47,14 @@ const enableMapFilters = function () {
 
 // Возвращение фильтров и страницы в изначальное состояние
 const setAddressToDefault = function () {
-  addressLabel.value = `${LAT}, ${LNG}`
+  setTimeout(() => {addressLabel.value = `${LAT}, ${LNG}`}, 0)
 }
 
 const resetPage = function () {
   mainPinMarker.setLatLng([LAT, LNG]);
   mapFilters.reset();
   adForm.reset();
-  setTimeout(() => {setAddressToDefault()}, 0);
+  setAddressToDefault();
   getData(renderMarkers, replyOnDataError);
 }
 
