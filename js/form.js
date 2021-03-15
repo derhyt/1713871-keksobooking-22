@@ -1,6 +1,6 @@
-import { sendData } from './api.js'
-import { mainPinMarker } from './map.js'
-import { showSuccessMessage, showErrorMessage } from './util.js'
+import { getData, sendData } from './api.js'
+import { mainPinMarker, renderMarkers } from './map.js'
+import { showSuccessMessage, showErrorMessage, replyOnDataError, LAT, LNG } from './util.js'
 
 const adForm = document.querySelector('.ad-form')
 const mapFilters = document.querySelector('.map__filters');
@@ -47,14 +47,15 @@ const enableMapFilters = function () {
 
 // Возвращение фильтров и страницы в изначальное состояние
 const setAddressToDefault = function () {
-  addressLabel.value = '35.68128, 139.75296'
+  setTimeout(() => {addressLabel.value = `${LAT}, ${LNG}`}, 0)
 }
 
 const resetPage = function () {
-  mainPinMarker.setLatLng([35.68128, 139.75296]);
+  mainPinMarker.setLatLng([LAT, LNG]);
   mapFilters.reset();
   adForm.reset();
-  setTimeout(() => {setAddressToDefault()}, 0)
+  setAddressToDefault();
+  getData(renderMarkers, replyOnDataError);
 }
 
 // В случае отправки данных будет это:
