@@ -1,5 +1,4 @@
 import { createTemplateAd } from './card-template-generator.js';
-import { processData } from './filter.js';
 import { LAT, LNG } from './util.js';
 
 /* global L:readonly */
@@ -21,7 +20,8 @@ const renderMarkers = function (ads) {
     iconAnchor: [20, 40],
   });
 
-  processData(ads).forEach(ad => {
+  removeMarkers();
+  ads.forEach(ad => {
     const popup = createTemplateAd(ad);
     const marker = L.marker(
       {
@@ -89,4 +89,4 @@ const initializeMap = function (afterInit) {
   ).addTo(MAP);
 }
 
-export { mainPinMarker, initializeMap, renderMarkers, processData }
+export { mainPinMarker, initializeMap, renderMarkers }
