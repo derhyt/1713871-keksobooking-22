@@ -1,3 +1,5 @@
+/* global _:readonly */
+
 const mapFilters = document.querySelector('.map__filters');
 
 // Фильтр по типу
@@ -72,12 +74,13 @@ const filterAds = function (ads) {
 
 // Получаем обработанную дату
 const SIMILAR_AD_COUNT = 10;
+const RERENDER_DELAY = 500;
 
 const filterData = function (ads, render) {
-  mapFilters.addEventListener('change', () => {
+  mapFilters.addEventListener('change', _.debounce(() => {
     const result =  filterAds(ads).slice(0, SIMILAR_AD_COUNT);
     render(result);
-  });
+  }, RERENDER_DELAY));
   return render(ads)
 };
 
