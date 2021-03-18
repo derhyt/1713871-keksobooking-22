@@ -5,11 +5,10 @@ import { getData } from './api.js';
 import { replyOnDataError } from './util.js';
 import { filterData } from './filter.js';
 
-
-disablePage()
+disablePage();
 
 initializeMap(() => {
   enableAdForm();
   getData((ads) => filterData(ads, renderMarkers), replyOnDataError)
   enableMapFilters();
-})
+});

@@ -2,9 +2,10 @@ import { getData, sendData } from './api.js'
 import { mainPinMarker, renderMarkers } from './map.js'
 import { showSuccessMessage, showErrorMessage, replyOnDataError, LAT, LNG } from './util.js'
 
-const adForm = document.querySelector('.ad-form')
+const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const addressLabel = document.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
 
 // Функции для перевода страницы в неактивное состояние
 const disableAdForm = function () {
@@ -13,7 +14,7 @@ const disableAdForm = function () {
   for (let i = 0; i < adForm.children.length; i++) {
     adForm.children[i].setAttribute('disabled', 'disabled')
   }
-}
+};
 
 const disableMapFilters = function () {
   mapFilters.classList.add('ad-form--disabled')
@@ -21,12 +22,12 @@ const disableMapFilters = function () {
   for (let i = 0; i < mapFilters.children.length; i++) {
     mapFilters.children[i].setAttribute('disabled', 'disabled')
   }
-}
+};
 
 const disablePage = function () {
   disableAdForm(),
   disableMapFilters()
-}
+};
 
 // Функции для включения страницы
 const enableAdForm = function () {
@@ -35,7 +36,7 @@ const enableAdForm = function () {
   for (let i = 0; i < adForm.children.length; i++) {
     adForm.children[i].removeAttribute('disabled')
   }
-}
+};
 
 const enableMapFilters = function () {
   mapFilters.classList.remove('ad-form--disabled')
@@ -43,12 +44,12 @@ const enableMapFilters = function () {
   for (let i = 0; i < mapFilters.children.length; i++) {
     mapFilters.children[i].removeAttribute('disabled')
   }
-}
+};
 
 // Возвращение фильтров и страницы в изначальное состояние
 const setAddressToDefault = function () {
   setTimeout(() => {addressLabel.value = `${LAT}, ${LNG}`}, 0)
-}
+};
 
 const resetPage = function () {
   mainPinMarker.setLatLng([LAT, LNG]);
@@ -56,21 +57,18 @@ const resetPage = function () {
   adForm.reset();
   setAddressToDefault();
   getData(renderMarkers, replyOnDataError);
-}
+};
 
 // В случае отправки данных будет это:
 const sendDataSuccess = function () {
   showSuccessMessage();
   resetPage();
-}
+};
 
 // Обработчик кнопки ресет
-const resetButton = document.querySelector('.ad-form__reset')
-
 resetButton.addEventListener('click', () => {
   resetPage();
-})
-
+});
 
 // Обработка нажатия кнопки Отправить
 adForm.addEventListener('submit', (evt) => {

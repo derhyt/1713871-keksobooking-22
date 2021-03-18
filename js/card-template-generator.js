@@ -17,7 +17,7 @@ const mapType = function (type) {
 };
 
 // Тут происходит заполнение шаблона информацией
-const createTemplateAd = function(inputedFromData) {
+const CreateTemplateAd = function(inputedFromData) {
   const templateClone = newAdTemplate.cloneNode(true);
   const offer = inputedFromData.offer
   const adList = document.querySelector('#map-canvas');
@@ -62,4 +62,4 @@ const createTemplateAd = function(inputedFromData) {
   return adList.appendChild(templateClone);
 };
 
-export { createTemplateAd };
+export { CreateTemplateAd };

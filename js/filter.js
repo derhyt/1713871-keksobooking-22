@@ -1,9 +1,14 @@
 /* global _:readonly */
 
 const mapFilters = document.querySelector('.map__filters');
+const typeFilter = mapFilters.querySelector('#housing-type');
+const priceFilter = mapFilters.querySelector('#housing-price');
+const roomFilter = mapFilters.querySelector('#housing-rooms');
+const guestFilter = mapFilters.querySelector('#housing-guests');
+const SIMILAR_AD_COUNT = 10;
+const RERENDER_DELAY = 500;
 
 // Фильтр по типу
-const typeFilter = mapFilters.querySelector('#housing-type');
 const filterType = function (ad, type) {
   if (type === 'any' || ad.offer.type === type) {
     return true;
@@ -12,7 +17,6 @@ const filterType = function (ad, type) {
 };
 
 // По цене
-const priceFilter = mapFilters.querySelector('#housing-price');
 const filterPrice = function (ad, price) {
   if (price === 'any') {
     return true;
@@ -30,7 +34,6 @@ const filterPrice = function (ad, price) {
 };
 
 // По комнатам
-const roomFilter = mapFilters.querySelector('#housing-rooms');
 const filterRooms = function (ad, room) {
   if (room === 'any') {
     return true;
@@ -42,7 +45,6 @@ const filterRooms = function (ad, room) {
 };
 
 // По гостям
-const guestFilter = mapFilters.querySelector('#housing-guests');
 const filterGuests = function (ad, guest) {
   if (guest === 'any') {
     return true;
@@ -73,15 +75,12 @@ const filterAds = function (ads) {
 };
 
 // Получаем обработанную дату
-const SIMILAR_AD_COUNT = 10;
-const RERENDER_DELAY = 500;
-
-const filterData = function (ads, render) {
+const filterData = function (ads, cb) {
   mapFilters.addEventListener('change', _.debounce(() => {
     const result =  filterAds(ads).slice(0, SIMILAR_AD_COUNT);
-    render(result);
+    cb(result);
   }, RERENDER_DELAY));
-  return render(ads)
+  return cb(ads)
 };
 
 export { filterData };

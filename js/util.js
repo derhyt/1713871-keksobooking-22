@@ -1,5 +1,13 @@
 import { disableMapFilters } from './form.js'
 
+const main = document.querySelector('main');
+const errorTemplate = document.querySelector('#error').content;
+const errorMessage = errorTemplate.querySelector('.error');
+const newErrorMessage = errorMessage.cloneNode(true);
+const successTemplate = document.querySelector('#success').content;
+const successMessage = successTemplate.querySelector('.success');
+const newSuccessMessage = successMessage.cloneNode(true);
+
 // Координаты центра Токио
 const LAT = 35.68128;
 const LNG = 139.75296;
@@ -33,13 +41,7 @@ const replyOnDataError = function () {
 }
 
 // Работаем с отправкой формы
-const main = document.querySelector('main')
-
 // Неуспешная
-const errorTemplate = document.querySelector('#error').content
-const errorMessage = errorTemplate.querySelector('.error')
-const newErrorMessage = errorMessage.cloneNode(true)
-
 const showErrorMessage = function () {
   newErrorMessage.style.zIndex ='1000'
   main.appendChild(newErrorMessage)
@@ -55,10 +57,6 @@ const showErrorMessage = function () {
 }
 
 // Успешная
-const successTemplate = document.querySelector('#success').content
-const successMessage = successTemplate.querySelector('.success')
-const newSuccessMessage = successMessage.cloneNode(true)
-
 const showSuccessMessage = function () {
   newSuccessMessage.style.zIndex ='1000'
   main.appendChild(newSuccessMessage);

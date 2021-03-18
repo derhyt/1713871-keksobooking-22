@@ -2,15 +2,15 @@ const URL_GET = 'https://22.javascript.pages.academy/keksobooking/data'
 const URL_POST = 'https://22.javascript.pages.academy/keksobooking'
 
 // Получаем данные
-const getData = function (onSuccess, onFail) {
+const getData = function (onSuccess, err) {
   fetch(URL_GET)
     .then((response) => response.json())
     .then((data) => onSuccess(data))
-    .catch(() => {onFail()})
+    .catch(() => {err()})
 };
 
 // Пытаемся отдать данные
-const sendData = function (data, onSuccess, onFail) {
+const sendData = function (data, onSuccess, err) {
   fetch(URL_POST, {
     method: 'POST',
     body: data,
@@ -18,11 +18,11 @@ const sendData = function (data, onSuccess, onFail) {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-      } else {onFail()
+      } else {err()
       }
     })
     .catch(() => {
-      onFail()
+      err()
     });
 };
 
