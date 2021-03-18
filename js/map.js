@@ -1,9 +1,9 @@
-import { createTemplateAd } from './card-template-generator.js';
+import { CreateTemplateAd } from './card-template-generator.js';
 import { LAT, LNG } from './util.js';
 
 /* global L:readonly */
-
 const MAP = L.map('map-canvas');
+const address = document.querySelector('#address');
 
 // Функции для работы с маркерами обьявлений
 let markers = L.layerGroup().addTo(MAP);
@@ -22,7 +22,7 @@ const renderMarkers = function (ads) {
 
   removeMarkers();
   ads.forEach(ad => {
-    const popup = createTemplateAd(ad);
+    const popup = CreateTemplateAd(ad);
     const marker = L.marker(
       {
         lat: ad.location.lat,
@@ -60,7 +60,6 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(MAP);
 
 // Реализуем принципы работы главного маркера
-const address = document.querySelector('#address');
 address.value = `${LAT}, ${LNG}`;
 mainPinMarker.on('moveend', (evt) => {
   const addressLatIng = Object.values(evt.target.getLatLng());

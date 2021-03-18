@@ -1,7 +1,12 @@
-// Тип и цена
-const type = document.querySelector('#type')
-const price = document.querySelector('#price')
+const type = document.querySelector('#type');
+const price = document.querySelector('#price');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+const guests = capacity.querySelectorAll('option');
 
+// Тип и цена
 type.addEventListener('change', () => {
   switch (type.value) {
     case 'bungalow':
@@ -20,9 +25,6 @@ type.addEventListener('change', () => {
 });
 
 // Время заеда и выезда
-const timeIn = document.querySelector('#timein')
-const timeOut = document.querySelector('#timeout')
-
 timeIn.addEventListener('change', () => {
   switch (timeIn.value) {
     case '12:00':
@@ -35,10 +37,6 @@ timeIn.addEventListener('change', () => {
 });
 
 // Кол-во комнат и гостей
-const roomNumber = document.querySelector('#room_number')
-const capacity = document.querySelector('#capacity')
-const guests = capacity.querySelectorAll('option')
-
 const disableChoosenCapacity = function (numb) {
   for (let i = 0; i < numb.length; i++) {
     const int = numb[i]

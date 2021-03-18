@@ -5,6 +5,7 @@ import { showSuccessMessage, showErrorMessage, replyOnDataError, LAT, LNG } from
 const adForm = document.querySelector('.ad-form')
 const mapFilters = document.querySelector('.map__filters');
 const addressLabel = document.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
 
 // Функции для перевода страницы в неактивное состояние
 const disableAdForm = function () {
@@ -65,8 +66,6 @@ const sendDataSuccess = function () {
 }
 
 // Обработчик кнопки ресет
-const resetButton = document.querySelector('.ad-form__reset')
-
 resetButton.addEventListener('click', () => {
   resetPage();
 })
