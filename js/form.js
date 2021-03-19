@@ -7,28 +7,6 @@ const mapFilters = document.querySelector('.map__filters');
 const addressLabel = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
 
-// Функции для перевода страницы в неактивное состояние
-const disableAdForm = function () {
-  adForm.classList.add('ad-form--disabled')
-
-  for (let i = 0; i < adForm.children.length; i++) {
-    adForm.children[i].setAttribute('disabled', 'disabled')
-  }
-}
-
-const disableMapFilters = function () {
-  mapFilters.classList.add('ad-form--disabled')
-
-  for (let i = 0; i < mapFilters.children.length; i++) {
-    mapFilters.children[i].setAttribute('disabled', 'disabled')
-  }
-}
-
-const disablePage = function () {
-  disableAdForm(),
-  disableMapFilters()
-}
-
 // Функции для включения страницы
 const enableAdForm = function () {
   adForm.classList.remove('ad-form--disabled')
@@ -70,7 +48,6 @@ resetButton.addEventListener('click', () => {
   resetPage();
 })
 
-
 // Обработка нажатия кнопки Отправить
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -80,7 +57,5 @@ adForm.addEventListener('submit', (evt) => {
 });
 
 export {
-  disableMapFilters,
-  disablePage,
   enableAdForm,
   enableMapFilters };

@@ -34,7 +34,6 @@ const CreateTemplateAd = function(inputedFromData) {
   const avatar = templateClone.querySelector('img');
   const imageNode = photo.querySelector('img');
 
-
   title.textContent = offer.title
   address.textContent = offer.address
   price.textContent = `${offer.price} ₽/ночь`
@@ -57,7 +56,6 @@ const CreateTemplateAd = function(inputedFromData) {
     photo.appendChild(imageNodeClone);
   }
   imageNode.remove();
-
 
   return adList.appendChild(templateClone);
 };

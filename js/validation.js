@@ -5,22 +5,26 @@ const timeOut = document.querySelector('#timeout');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const guests = capacity.querySelectorAll('option');
+const BUNGALOW_LOW_PRICE = 0;
+const FLAT_LOW_PRICE = 1000;
+const HOUSE_LOW_PRICE = 5000;
+const PALACE_LOW_PRICE = 10000;
 
 // Тип и цена
 type.addEventListener('change', () => {
   switch (type.value) {
     case 'bungalow':
-      return price.min = 0,
-      price.placeholder = 0;
+      return price.min = BUNGALOW_LOW_PRICE,
+      price.placeholder = BUNGALOW_LOW_PRICE;
     case 'flat':
-      return price.min = 1000,
-      price.placeholder = 1000;
+      return price.min = FLAT_LOW_PRICE,
+      price.placeholder = FLAT_LOW_PRICE;
     case 'house':
-      return price.min = 5000,
-      price.placeholder = 5000;
+      return price.min = HOUSE_LOW_PRICE,
+      price.placeholder = HOUSE_LOW_PRICE;
     case 'palace':
-      return price.min = 10000,
-      price.placeholder = 10000;
+      return price.min = PALACE_LOW_PRICE,
+      price.placeholder = PALACE_LOW_PRICE;
   }
 });
 

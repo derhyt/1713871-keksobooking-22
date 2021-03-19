@@ -6,52 +6,30 @@ const typeFilter = mapFilters.querySelector('#housing-type');
 const guestFilter = mapFilters.querySelector('#housing-guests');
 const SIMILAR_AD_COUNT = 10;
 const RERENDER_DELAY = 500;
+const LOW_PRICE_THRESHOLD = 10000;
+const HIGH_PRICE_THRESHOLD = 50000;
 
 // Фильтр по типу
 const filterType = function (ad, type) {
-  if (type === 'any' || ad.offer.type === type) {
-    return true;
-  }
-  return false;
+  return type === 'any' || ad.offer.type === type
 };
 
 // По цене
 const filterPrice = function (ad, price) {
-  if (price === 'any') {
-    return true;
-  }
-  if (ad.offer.price <= 10000 && price === 'low') {
-    return true;
-  }
-  if (ad.offer.price > 10000 && ad.offer.price <= 50000 && price === 'middle') {
-    return true;
-  }
-  if (ad.offer.price > 50000 && price === 'high') {
-    return true;
-  }
-  return false;
+  return (price === 'any') ||
+   (ad.offer.price <= LOW_PRICE_THRESHOLD && price === 'low') ||
+   (ad.offer.price > LOW_PRICE_THRESHOLD && ad.offer.price <= HIGH_PRICE_THRESHOLD && price === 'middle') ||
+   (ad.offer.price > HIGH_PRICE_THRESHOLD && price === 'high')
 };
 
 // По комнатам
 const filterRooms = function (ad, room) {
-  if (room === 'any') {
-    return true;
-  }
-  if (Number(room) === Number(ad.offer.rooms)) {
-    return true;
-  }
-  return false;
+  return room === 'any' || Number(room) === Number(ad.offer.rooms)
 };
 
 // По гостям
 const filterGuests = function (ad, guest) {
-  if (guest === 'any') {
-    return true;
-  }
-  if (Number(guest) === ad.offer.guests) {
-    return true;
-  }
-  return false;
+  return guest === 'any' || Number(guest) === ad.offer.guests
 };
 
 // По удобствам
